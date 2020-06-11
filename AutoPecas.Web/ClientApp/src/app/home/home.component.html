@@ -1,0 +1,40 @@
+<div class="conteudo">
+
+    <h1>ERP: AutoPeças</h1>
+<br/>
+<br/>
+    <form nz-form [formGroup]="usuarioForm">
+
+        <nz-form-item>
+            <nz-form-label nzRequired>Usuário</nz-form-label>
+            <nz-form-control nzErrorTip="Por favor digite um usuário!">
+                <input nz-input formControlName="usuario" placeholder="Digite o usuário da pessoa" />
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-label nzRequired>Senha</nz-form-label>
+            <nz-form-control nzErrorTip="Por favor digite uma senha!">
+                <input nz-input type="password" formControlName="senha" placeholder="Escolha uma senha" />
+            </nz-form-control>
+        </nz-form-item>
+
+        <div class="acao-form">
+            <p></p>
+
+            <button nz-button (click)="usuarioForm.reset()" nzType="primary" nzShape="round">
+                <i nz-icon nzType="clear" nzTheme="outline"></i>
+                Limpar
+            </button>
+            <button nz-button (click)="submitForm()" nzType="primary" nzShape="round" [disabled]="usuarioForm.invalid">
+                <i nz-icon nzType="save" nzTheme="outline"></i>
+                Acessar
+            </button>
+        </div>
+
+    </form>
+    <nz-alert *ngIf="mensagemErro" nzType="error" nzMessage="Usuário e/ou Senha inválidos!" nzShowIcon class="alerta">
+    </nz-alert>
+
+
+</div>

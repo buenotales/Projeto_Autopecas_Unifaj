@@ -1,0 +1,75 @@
+<h2>Produtos</h2>
+
+<nz-skeleton [nzActive]="true" [nzLoading]="!produtos">
+  <div class="produtos">
+    <div *ngFor="let produto of produtos">
+      <nz-card class="produto" nzType="inner" [nzActions]="[acaoEditar, acaoDetalhes]">
+          <nz-card-meta [nzTitle]="produto.descricao" [nzDescription]="info"></nz-card-meta>
+      </nz-card>
+      <ng-template #info>
+        Valor: {{ produto.valorCusto | currency: 'BRL'}}
+      </ng-template>
+      <ng-template #acaoEditar>
+        <a (click)="cadastrar(produto)">Editar</a>
+      </ng-template>
+      <ng-template #acaoDetalhes>
+        <a (click)="detalhes(produto)">Detalhes</a>
+      </ng-template>
+    </div>
+  </div>
+</nz-skeleton>
+
+<div class="acao">
+  <nz-pagination
+    [nzPageIndex]="filtro.pagina"
+    [nzPageSize]="filtro.tamanho"
+    [nzTotal]="filtro.total"
+    [nzShowTotal]="totalTemplate"
+    (nzPageIndexChange)="paginar($event)">
+  </nz-pagination>
+  <ng-template #totalTemplate let-total>
+    Total: {{ total }} produtos
+  </ng-template>
+
+  <button nz-button nzShape="round" nzType="primary" (click)="limparFiltro()">
+    <i nz-icon nzType="clear" nzTheme="outline"></i>
+    Limpar Filtro
+  </button>
+
+  <button nz-button nzShape="round" nzType="primary" (click)="filtrar()">
+    <i nz-icon nzType="filter" nzTheme="outline"></i>
+    Filtrar
+  </button>
+
+  <button nz-button nzShape="round" nzType="primary" (click)="cadastrar()">
+    <i nz-icon nzType="plus-square" nzTheme="outline"></i>
+    Novo Produto
+  </button>
+</div>
+
+<nz-drawer [nzVisible]="visible" [nzWidth]="640" [nzClosable]="false" (nzOnClose)="detalhes()">
+  <p class="title" style=" margin-bottom: 24px;">Detalhes do Produto</p>
+  <nz-descriptions [nzColumn]="2" nzTitle="Produto">
+    <nz-descriptions-item nzTitle="Descricao" [nzSpan]="1">{{ produtoDetalhes.descricao }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Codigo de Barras" [nzSpan]="1">{{ produtoDetalhes.codigoBarras }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Valor de Custo" [nzSpan]="1">{{ produtoDetalhes.valorCusto }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Valor de Venda" [nzSpan]="1">{{ produtoDetalhes.valorVenda }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Estoque Mínimo" [nzSpan]="1">{{ produtoDetalhes.estoqueMinimo }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Estoque Máximo" [nzSpan]="1">{{ produtoDetalhes.estoqueMaximo }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Quantidade" [nzSpan]="1">{{ produtoDetalhes.quantidade }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Observação" [nzSpan]="2">
+      {{ produtoDetalhes.observacao }}
+    </nz-descriptions-item>
+  </nz-descriptions>
+  <nz-divider *ngIf="produtoDetalhes.marca"></nz-divider>
+  <nz-descriptions *ngIf="produtoDetalhes.marca" [nzColumn]="2" nzTitle="Marca">
+    <nz-descriptions-item nzTitle="Nome" [nzSpan]="1">{{ produtoDetalhes.marca.nome }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Descrição" [nzSpan]="1">{{ produtoDetalhes.marca.descricao }}</nz-descriptions-item>
+  </nz-descriptions>
+  <nz-divider *ngIf="produtoDetalhes.categoria"></nz-divider>
+  <nz-descriptions *ngIf="produtoDetalhes.categoria" [nzColumn]="2" nzTitle="Categoria">
+    <nz-descriptions-item nzTitle="Nome" [nzSpan]="1">{{ produtoDetalhes.categoria.nome }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Descrição" [nzSpan]="1">{{ produtoDetalhes.categoria.descricao }}</nz-descriptions-item>
+  </nz-descriptions>
+</nz-drawer>
+
